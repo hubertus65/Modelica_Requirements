@@ -25,13 +25,13 @@ package MotorsWithLosses
       "Signals observed from a DC motor as needed by DCMotorRequirements block"
        extends Modelica_Requirements.Interfaces.PartialWatching;
 
-      parameter Modelica.Units.SI.Voltage VaNominal;
-      parameter Modelica.Units.SI.Current IaNominal;
-      parameter Modelica.Units.SI.AngularVelocity wNominal;
+       parameter Modelica.SIunits.Voltage VaNominal;
+       parameter Modelica.SIunits.Current IaNominal;
+       parameter Modelica.SIunits.AngularVelocity wNominal;
 
-      Modelica.Units.SI.Voltage v annotation (Dialog);
-      Modelica.Units.SI.Current i annotation (Dialog);
-      Modelica.Units.SI.AngularVelocity w annotation (Dialog);
+       Modelica.SIunits.Voltage v annotation(Dialog);
+       Modelica.SIunits.Current i annotation(Dialog);
+       Modelica.SIunits.AngularVelocity w annotation(Dialog);
     end DCMotorWatching;
 
     block DCMotorRequirements "Requirements for one DC Motor"
@@ -90,16 +90,16 @@ package MotorsWithLosses
     protected
      record InertiaData
         "Data needed from Modelica.Mechanics.Rotational.Components.Inertia"
-        Modelica.Units.SI.AngularVelocity w;
+       Modelica.SIunits.AngularVelocity w;
      end InertiaData;
 
      record MotorData
         "Data needed Modelica.Electrical.Machines.BasicMachines.DCMachines.DC_PermanentMagnet"
-        parameter Modelica.Units.SI.Voltage VaNominal;
-        parameter Modelica.Units.SI.Current IaNominal;
-        parameter Modelica.Units.SI.AngularVelocity wNominal;
-        Modelica.Units.SI.Voltage va;
-        Modelica.Units.SI.Current ia;
+       parameter Modelica.SIunits.Voltage VaNominal;
+       parameter Modelica.SIunits.Current IaNominal;
+       parameter Modelica.SIunits.AngularVelocity wNominal;
+       Modelica.SIunits.Voltage va;
+       Modelica.SIunits.Current ia;
        InertiaData inertiaRotor;
      end MotorData;
 

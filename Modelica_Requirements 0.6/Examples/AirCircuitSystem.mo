@@ -68,9 +68,8 @@ package AirCircuitSystem
 
         record Medium "Observation variables from a medium"
           extends Modelica.Icons.Record;
-          Modelica.Units.SI.Pressure p "Medium pressure" annotation (Dialog);
-          Modelica.Units.SI.Temperature T "Medium temperature"
-            annotation (Dialog);
+          Modelica.SIunits.Pressure p "Medium pressure" annotation(Dialog);
+          Modelica.SIunits.Temperature T "Medium temperature" annotation(Dialog);
         end Medium;
 
         record MediumVector
@@ -83,11 +82,11 @@ package AirCircuitSystem
       block PipeRequirements "Requirements for a Pipe"
          extends Modelica_Requirements.Interfaces.PartialRequirements;
 
-        parameter Modelica.Units.SI.Pressure pMax=1e5
+         parameter Modelica.SIunits.Pressure pMax= 1e5
           "Maximal allowed pressure";
-        parameter Modelica.Units.SI.Temperature Tmin=255
+         parameter Modelica.SIunits.Temperature Tmin = 255
           "Minimum pipe temperature";
-        parameter Modelica.Units.SI.Temperature Tmax=300
+         parameter Modelica.SIunits.Temperature Tmax = 300
           "Maximum pipe temperature";
 
         input Records.MediumVector observation
@@ -122,11 +121,11 @@ package AirCircuitSystem
 
       block PipeNodeRequirements "Requirements for a a node of a pipe"
          extends Modelica.Blocks.Icons.Block;
-        parameter Modelica.Units.SI.Pressure pMax=1e5
+         parameter Modelica.SIunits.Pressure pMax= 1e5
           "Maximal allowed pressure";
-        parameter Modelica.Units.SI.Temperature Tmin=255
+         parameter Modelica.SIunits.Temperature Tmin = 255
           "Minimum pipe temperature";
-        parameter Modelica.Units.SI.Temperature Tmax=300
+         parameter Modelica.SIunits.Temperature Tmax = 300
           "Maximum pipe temperature";
 
         input Records.Medium observation

@@ -3,9 +3,8 @@ package TimeLocators
   "Library of continuous time locators (output is true, if within time locator)"
   extends Modelica.Icons.Package;
   block Every "Output is true, during every interval for a defined duration"
-    parameter Modelica.Units.SI.Time interval(start=1) "Length of interval"
-      annotation (Dialog);
-    parameter Modelica.Units.SI.Time duration(start=0.5)
+    parameter Modelica.SIunits.Time interval(start=1) "Length of interval" annotation(Dialog);
+    parameter Modelica.SIunits.Time duration(start=0.5)
       "Duration within interval (< interval)";
     Modelica.Blocks.Interfaces.BooleanOutput y
       "= true, during every interval for defined duration"
@@ -321,7 +320,7 @@ results in
   block AfterFor
     "Output is true, after rising edge of input for defined duration (flat version)"
     input Boolean u "Boolean input" annotation(Dialog);
-    parameter Modelica.Units.SI.Time duration(start=1)
+    parameter Modelica.SIunits.Time duration(start=1)
       "Duration after rising edge of u";
     Modelica.Blocks.Interfaces.BooleanOutput y
       "= true, after rising edge of u for given duration"
