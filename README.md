@@ -1,5 +1,7 @@
 # Modelica_Requirements
 
+Current status: most things seem to work in Modelon Impact, except for everythign that uses terminal(), e.g. the requirements needing FFTs
+
 Defining requirements formally and checking them when simulating
 
 ## Library description
