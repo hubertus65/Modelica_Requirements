@@ -1,7 +1,12 @@
 {
   "name": "Modelica_requirements",
   "format": "1.0.0",
-  "dependencies": [],
+  "dependencies": [
+    {
+      "name": "Modelica",
+      "versionSpecifier": "4.0.0"
+    }
+  ],
   "content": [
     {
       "relpath": "Modelica_Requirements",
