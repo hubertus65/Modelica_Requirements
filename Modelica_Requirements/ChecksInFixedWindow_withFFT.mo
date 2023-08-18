@@ -936,8 +936,7 @@ As can be seen, the first FFT fulfills the check (THD &lt; THDmax), whereas the 
 </table>
 </html>"));
     end amplitudeFrequencyCurveForIcon;
-
-    function checkDomain "Check whether FFT is in required domain"
+  function checkDomain "Check whether FFT is in required domain"
       import Modelica_Requirements.Types.Property;
 
       input Real A[:] "Amplitudes";
@@ -950,9 +949,9 @@ As can be seen, the first FFT fulfills the check (THD &lt; THDmax), whereas the 
       Integer nA=size(A,1);
       Real    fMin, fMax;
       Real    df = f_max/(nA-1);
-      Real    diff[:];
+      Real    diff[size(A,1)];
       Integer iMin, iMax;
-      Real f[:];
+      Real f[iMax - iMin + 1];
     algorithm
       // Determine frequency domain that must be checked
       fMin :=max(0, maxAmplitude[1, 1]);
