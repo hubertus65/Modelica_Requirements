@@ -758,7 +758,7 @@ As can be seen, the first FFT fulfills the check (THD &lt; THDmax), whereas the 
         parameter Boolean storeFFTonFile=true
         "= true, if FFT results shall be stored on file <modelName>/FFT.<instanceName>.<index>.mat"
                                                                                        annotation(Evaluate=true, choices(checkBox=true));
-      parameter Modelica.Units.SI.Frequency f_max
+     parameter Modelica.Units.SI.Frequency f_max
         "Maximum frequency of interest (sampling frequency >= 10*f_max)";
       parameter Modelica.Units.SI.Frequency f_resolution
         "Frequency resolution (frequency axis points are an integer multiple of f_resolution)";
@@ -798,8 +798,9 @@ As can be seen, the first FFT fulfills the check (THD &lt; THDmax), whereas the 
         final Real fA_plot[3*np,2](each start=0, each fixed=true)
         "[frequency, amplitude] matrix used for plotting in icon";
     protected
+        constant String MIHOME = "/home/jovyan/" "Modelon Impact cloud home directory: use only if on MI cloud instances!"; 
         constant String instanceName =    getInstanceName();
-        constant String resultDirectory = Modelica_Requirements.Internal.getFirstName(instanceName);
+        constant String resultDirectory = MIHOME + Modelica_Requirements.Internal.getFirstName(instanceName);
         constant String filePrefix =      "FFT." + Modelica_Requirements.Internal.removeFirstName(instanceName) + ".";
 
         Real u_buf[ns](each start=0, each fixed=true);

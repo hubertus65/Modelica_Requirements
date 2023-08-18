@@ -18,11 +18,14 @@ package ChecksInSlidingWindow
 
   protected
     SlidingWindow.Buffer buffer "Buffer for sliding window";
+    SlidingWindow.Buffer buffer_temp "Temporary Buffer for sliding window";
+
     discrete Modelica.Units.SI.Time t_first;
     Boolean first;
 
   initial equation
     buffer = SlidingWindow.push(SlidingWindow.init(window,time), time, check);
+    buffer_temp = SlidingWindow.push(SlidingWindow.init(window,time), time, check);
     first = true;
     pre(check) = check;
 
@@ -38,7 +41,14 @@ package ChecksInSlidingWindow
     end when;
 
     when change(check) then
-       buffer = SlidingWindow.push(pre(buffer), time, check);
+       buffer_temp.b = pre(buffer.b);
+       buffer_temp.first = pre(buffer.first);
+       buffer_temp.last = pre(buffer.last);   
+       buffer_temp.nElem = pre(buffer.nElem);       
+       buffer_temp.t0 = pre(buffer.t0);       
+       buffer_temp.t = pre(buffer.t);       
+       buffer_temp.T = pre(buffer.T);       
+       buffer = SlidingWindow.push(buffer_temp, time, check);
     end when;
 
     maxDuration = SlidingWindow.maxDuration(buffer, time, check);
