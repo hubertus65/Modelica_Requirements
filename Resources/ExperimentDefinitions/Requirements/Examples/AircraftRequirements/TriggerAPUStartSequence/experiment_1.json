@@ -1,0 +1,55 @@
+{
+  "version" : "2",
+  "id" : "7a41021f-bc6f-4d86-8f1a-da43595b4139",
+  "experiment" : {
+    "base" : {
+      "analysis" : {
+        "variableFilters" : [ ],
+        "selectedType" : "dynamic",
+        "choices" : [ {
+          "type" : "dynamic",
+          "parameters" : {
+            "final_time" : 8,
+            "start_time" : 0
+          },
+          "simulationOptions" : {
+            "dynamic_diagnostics" : false,
+            "ncp" : 500
+          },
+          "solverOptions" : {
+            "store_event_points" : true
+          },
+          "compilerOptions" : {
+            "c_compiler" : "gcc",
+            "generate_html_diagnostics" : false,
+            "include_protected_variables" : false
+          },
+          "runtimeOptions" : { }
+        } ],
+        "expansion" : {
+          "discreteAlgorithm" : {
+            "noOfSamples" : 0,
+            "seed" : 0
+          },
+          "continuousAlgorithm" : {
+            "type" : "SOBOL",
+            "noOfSamples" : 10,
+            "seed" : 0
+          }
+        }
+      },
+      "modifiers" : {
+        "initializeFrom" : "",
+        "variables" : [ {
+          "name" : "printViolations.evaluationTime",
+          "expression" : "8"
+        } ]
+      }
+    }
+  },
+  "metadata" : {
+    "created" : "2025-02-20 02:10:39.316770259",
+    "lastModified" : "2025-02-20T02:11:04.729686882Z",
+    "name" : "Experiment 1"
+  }
+}

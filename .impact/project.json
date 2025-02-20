@@ -9,9 +9,9 @@
   ],
   "content": [
     {
-      "relpath": "Modelica_Requirements",
+      "relpath": "Requirements",
       "contentType": "MODELICA",
-      "name": "Modelica_Requirements",
+      "name": "Requirements",
       "defaultDisabled": false,
       "id": "5c4b28104d044bb9b5581f5ab91bed74"
     },
