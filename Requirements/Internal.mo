@@ -387,27 +387,29 @@ package Internal "Library of internal components (should not be directly used)"
      record Buffer "Memory of sliding window"
       Modelica.Units.SI.Time T "Length of sliding window";
       Modelica.Units.SI.Time t0 "Time instant where sliding time window starts";
-      Modelica.Units.SI.Time t[nBuffer] "Time instants";
-        Boolean b[nBuffer] "Values at corresponding time instants";
+      Modelica.Units.SI.Time[nBuffer] t(start = zeros(nBuffer)) "Time instants";
+        Boolean[nBuffer] b(start = fill(false,nBuffer)) "Values at corresponding time instants";
         Integer first "Index of first element in buffer";
         Integer last "Index of last element in buffer";
         Integer nElem "Number of elements in the buffer";
      end Buffer;
 
-     function init "Initialize a sliding window buffer"
+     impure function init "Initialize a sliding window buffer"
+      import Modelica.Utilities.Streams.print;
       input Modelica.Units.SI.Time T "Length of window";
       input Modelica.Units.SI.Time t0 "Initial time instant";
-        output Buffer buffer = Buffer(T=T, t0=t0, t=fill(0, nBuffer), b=fill(false, nBuffer), first=0, last=0, nElem=0) "Initialized buffer";
+      output Buffer buffer = Buffer(T=T, t0=t0, t=fill(0, nBuffer), b=fill(false, nBuffer), first=0, last=0, nElem=0) "Initialized buffer";
      algorithm
-     end init;
+        print("... buffer initialized with first = " + String(buffer.first) + " and last = " + String(buffer.last) + " Window size T = " + String(T) + " at time t = "+ String(t0) + "s");
+
+end init;
 
      impure function push
       "Store an element on the sliding window buffer and remove elements that are older as the window length"
         import Modelica.Utilities.Streams.print;
         input Buffer buffer "Memory of sliding window";
         input Real t "Time instant of v to be stored in buffer";
-        input Boolean b=false
-        "Value b at time instant t to be stored in buffer";
+        input Boolean b "Value b at time instant t to be stored in buffer";
         output Buffer newBuffer "Updated memory of sliding window";
     protected
         constant Real eps = 1000*Modelica.Constants.eps;
@@ -419,61 +421,76 @@ package Internal "Library of internal components (should not be directly used)"
         Integer i = 0;
      algorithm
         // Remove old values from buffer
+        print("tOld = " +String(tOld) + " s");
+        print("nElem = " + String(nElem));
+        print("push: Window size = " + String(buffer.T));
         if nElem > 0 then
           if last > first then
              i :=last;
              while i <= nBuffer loop
                 if buffer.t[i] <= tOld then
                    i :=i + 1;
-                   nElem :=nElem - 1;
+                   nElem :=nElem - 1 "count down nElem, but only if last > first";
+                   print("reducing nElem by 1, loop 1");
                 else
                    finished :=true;
+                   print("first break");
                    break;
                 end if;
              end while;
-             last :=if i > nBuffer then 1 else i;
+             last :=if i > nBuffer then 1 else i "reset last to 1 if larger than nBuffer";
            end if;
 
-          if not finished then
+          if not finished then 
              i :=last;
              while i <= first loop
                 if buffer.t[i] <= tOld then
                    i :=i + 1;
+                   print("reducing nElem by 1, loop 2, counter i = " + String(i) + "and nELem = " + String(nElem));
                    nElem :=nElem - 1;
                  else
+                   print("second break");
                    break;
                  end if;
               end while;
           end if;
 
           if nElem > 0 then
+             print("setting last to i = " + String(i));
              last :=i;
           else
              first :=0;
              last :=0;
           end if;
-        end if;
+        end if "set first and last to 0 if nElem is 0, otherwise set last to i from above, i.e. count one up if normal";
 
         // Print warning if buffer too small
         if nElem >= nBuffer then
            print("... warning: buffer of sliding window too small at time = " +String(t) + " s (results will be for smaller sliding time window)");
         end if;
 
-        // Store time and value in buffer
-        newBuffer :=buffer;
+        // Store time and value in buffer, btw THIS STATEMENT does not seem to work in MI!
+        //newBuffer :=buffer;
         if nElem > 0 then
            first :=if first + 1 <= nBuffer then first + 1 else 1;
+             print("setting first = " + String(first));
         else
+           print("buffer empty, because nElem = " + String(nElem));
            first :=1;
            last :=1;
-        end if;
+        end if "add 1 to first if nElem > 0 and <= nBuffer, else reset to 1";
         nElem :=nElem + 1;
+        print("setting nElem = " + String(nElem) + " at time t = " + String(t));
         newBuffer.first :=first;
         newBuffer.last :=last;
         newBuffer.nElem :=nElem;
+        newBuffer.T :=buffer.T;
+        newBuffer.t := buffer.t;
+        newBuffer.b := buffer.b;
+        newBuffer.t0 := buffer.t0;
         newBuffer.t[first] :=t;
         newBuffer.b[first] :=b;
-        annotation(__iti_Impure = true);
+        print("... buffer updated with first, last, nElem and t, first = " +String(newBuffer.first)  + ", last = " + String(newBuffer.last) + ", nElem = " + String(newBuffer.nElem) +  " at time t = "+ String(t) + "s");
      end push;
 
      function removeOldest
